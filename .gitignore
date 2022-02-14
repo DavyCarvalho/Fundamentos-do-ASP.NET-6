@@ -140,3 +140,5 @@ _NCrunch*
 requisitos.txt
 MinhaApi/.vscode/launch.json
 MinhaApi/.vscode/tasks.json
+Todo/.vscode/launch.json
+Todo/.vscode/tasks.json
