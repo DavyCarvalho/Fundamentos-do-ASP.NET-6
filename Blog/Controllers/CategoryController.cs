@@ -1,4 +1,5 @@
 ﻿using Blog.Data;
+using Blog.Extensions;
 using Blog.Models;
 using Blog.ViewsModels;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace Blog.Controllers
         public async Task<IActionResult> GetAsync([FromServices] BlogDataContext context)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
 
             try
             {
@@ -30,7 +31,7 @@ namespace Blog.Controllers
                                                       [FromRoute] int id)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
 
             try
             {
@@ -41,7 +42,7 @@ namespace Blog.Controllers
 
                 return Ok(new ResultViewModel<Category>(category));
             }
-            catch (Exception)
+            catch
             {
                 return StatusCode(500, new ResultViewModel<Category>("05X05 - Falha interna no servidor"));
             }
@@ -52,7 +53,7 @@ namespace Blog.Controllers
                                                    [FromBody] EditorCategoryViewModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
 
             try
             {
@@ -71,7 +72,7 @@ namespace Blog.Controllers
             {
                 return StatusCode(500, new ResultViewModel<Category>("05XE9 - Não foi possivel incluir a categoria"));
             }
-            catch (Exception)
+            catch
             {
                 return StatusCode(500, new ResultViewModel<Category>("05XE10 - Falha interna no servidor"));
             }
@@ -83,7 +84,7 @@ namespace Blog.Controllers
                                                   [FromBody] EditorCategoryViewModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
 
             try
             {
@@ -104,7 +105,7 @@ namespace Blog.Controllers
             {
                 return StatusCode(500, new ResultViewModel<Category>("05XE8 - Não foi possivel alterar a categoria"));
             }
-            catch (Exception)
+            catch
             {
                 return StatusCode(500, new ResultViewModel<Category>("05XE11 - Falha interna no servidor"));
             }
@@ -115,7 +116,7 @@ namespace Blog.Controllers
                                                      [FromRoute] int id)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+                return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
 
             try
             {
@@ -133,7 +134,7 @@ namespace Blog.Controllers
             {
                 return StatusCode(500, new ResultViewModel<Category>("05XE7 - Não foi possivel excluir a categoria"));
             }
-            catch (Exception)
+            catch
             {
                 return StatusCode(500, new ResultViewModel<Category>("05XE12 - Falha interna no servidor"));
             }
