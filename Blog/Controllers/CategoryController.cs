@@ -5,20 +5,27 @@ using Blog.ViewsModels;
 using Blog.ViewsModels.Categories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Blog.Controllers
 {
     public class CategoryController : ControllerBase
     {
         [HttpGet("v1/categories")]
-        public async Task<IActionResult> GetAsync([FromServices] BlogDataContext context)
+        public async Task<IActionResult> GetAsync(
+            [FromServices] IMemoryCache cache,
+            [FromServices] BlogDataContext context)
         {
             if (!ModelState.IsValid)
                 return BadRequest(new ResultViewModel<Category>(ModelState.GetErrors()));
 
             try
             {
-                var categories = await context.Categories.ToListAsync();
+                var categories = await cache.GetOrCreateAsync(key: "CategoriesCache", entry =>
+                 {
+                     entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+                     return context.Categories.ToListAsync();
+                 });
                 return Ok(new ResultViewModel<List<Category>>(categories));
             }
             catch
