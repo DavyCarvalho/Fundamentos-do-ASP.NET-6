@@ -11,7 +11,7 @@ namespace Blog.Data
         public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlServer(@"Data Source=NT-03072\SQLEXPRESS;Initial Catalog=Blog;Integrated Security=True; TrustServerCertificate=True");
+            => options.UseSqlServer(@"Data Source=NT-03072\SQLEXPRESS;Initial Catalog=blog-modulo-6;Integrated Security=True; TrustServerCertificate=True");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
